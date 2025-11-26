@@ -1,0 +1,486 @@
+ 
+      :root {
+        --verde-escuro: #02351f;
+        --verde-medio: #ffffff;
+        --verde-claro: #f0f3f2;
+        --verde-neon: #003820;
+        --branco: #f8f9fa;
+        --dourado: #bcf000e7;
+        --cinza-claro: #e9ecef;
+        --sombra: rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", "Segoe UI", sans-serif;
+        min-height: 100vh;
+        overflow: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        background: url("/icon/iconGSInfo.png") no-repeat center center fixed;
+        background-size: cover;
+        padding: 15px;
+      }
+
+      /* Overlay para escurecer e dar contraste ao fundo */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.7),
+          rgba(0, 80, 30, 0.5)
+        );
+        z-index: -1;
+      }
+
+      /* Container Principal - Ajustes para mobile */
+      .executive-portal {
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        backdrop-filter: blur(12px);
+        border-radius: 16px;
+        padding: 30px 25px;
+        box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.25),
+          0 0 0 1px rgba(46, 204, 113, 0.1),
+          inset 0 0 20px rgba(0, 255, 136, 0.05);
+        border: 1px solid rgba(46, 204, 113, 0.2);
+        position: relative;
+        z-index: 10;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin: auto;
+      }
+
+      /* Efeito de Partículas */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        opacity: 0.3;
+      }
+
+      .holographic-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 25px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotateY(0deg);
+        }
+        50% {
+          transform: translateY(-10px) rotateY(10deg);
+        }
+      }
+
+      .logo-sphere {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgb(17, 233, 132),
+          rgba(4, 133, 57, 0.986)
+        );
+        box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3),
+          0 0 30px rgba(0, 255, 136, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo-sphere::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to bottom right,
+          transparent 45%,
+          rgb(232, 238, 234) 50%,
+          transparent 55%
+        );
+        transform: rotate(30deg);
+        animation: shine 4s infinite linear;
+      }
+
+      @keyframes shine {
+        0% {
+          transform: translateX(-100%) rotate(30deg);
+        }
+        100% {
+          transform: translateX(100%) rotate(30deg);
+        }
+      }
+
+      /* Cabeçalho */
+      .portal-header {
+        text-align: center;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--verde-neon), var(--dourado));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: white;
+        margin-bottom: 8px;
+        position: relative;
+        display: inline-block;
+      }
+
+      h1::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--verde-neon), var(--dourado));
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: typing 1.5s 0.5s forwards cubic-bezier(0.19, 1, 0.22, 1);
+      }
+
+      @keyframes typing {
+        to {
+          transform: scaleX(1);
+        }
+      }
+
+      .portal-subtitle {
+        font-size: 0.9rem;
+        color: white;
+        letter-spacing: 1px;
+        animation: fadeIn 1s 1s both;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Campos de Input - Otimizados para mobile */
+      .input-field {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .input-field input {
+        width: 100%;
+        padding: 14px 18px;
+        background: rgba(131, 196, 101, 0.3);
+        border: 1px solid rgba(46, 204, 113, 0.3);
+        border-radius: 8px;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 0 rgba(0, 255, 136, 0);
+      }
+
+      .input-field input:focus {
+        outline: none;
+        border-color: var(--verde-neon);
+        box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .input-field label {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        color: white;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .input-field input:focus + label,
+      .input-field input:valid + label {
+        top: -10px;
+        left: 10px;
+        font-size: 0.8rem;
+        background: #003820;
+        padding: 0 5px;
+        color: var(--branco);
+      }
+
+      /* Botões com Efeito de Energia - Otimizados para toque */
+      .btn-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 25px;
+      }
+
+      .portal-btn {
+        position: relative;
+        padding: 14px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        z-index: 1;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn-login {
+        background: linear-gradient(
+          135deg,
+          var(--verde-neon),
+          var(--verde-medio)
+        );
+        color: white;
+        box-shadow: 0 4px 15px rgba(1, 43, 23, 0.3);
+      }
+
+      .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(6, 36, 22, 0.5);
+        color: white;
+      }
+
+      .btn-login::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--verde-medio),
+          var(--verde-neon)
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+
+      .btn-login:hover::before {
+        opacity: 1;
+      }
+
+      .btn-login::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(1, 184, 31, 0.027);
+        transform: rotate(30deg);
+        transition: all 0.5s ease;
+      }
+
+      .btn-login:hover::after {
+        left: 100%;
+      }
+
+      .btn-fechar {
+        background: rgba(116, 3, 3, 0.411);
+        color: var(--branco);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+      }
+
+      .btn-fechar:hover {
+        background: rgba(187, 51, 10, 0.637);
+        border-color: var(--dourado);
+      }
+
+      /* Rodapé - Otimizado para mobile */
+      .portal-footer {
+        margin-top: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .forgot-password {
+        color: var(--verde-neon);
+        text-decoration: none;
+        font-size: 0.85rem;
+        position: relative;
+        transition: all 0.3s ease;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+      }
+
+      .forgot-password::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--verde-neon);
+        transition: width 0.3s ease;
+      }
+
+      .forgot-password:hover {
+        color: white;
+      }
+
+      .forgot-password:hover::after {
+        width: 100%;
+      }
+
+      /* Efeitos de Luz */
+      .light-effect {
+        position: fixed;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 136, 0.1) 0%,
+          rgba(0, 255, 136, 0) 70%
+        );
+        pointer-events: none;
+      }
+
+      .light-1 {
+        top: -30px;
+        right: -30px;
+        animation: pulse 8s infinite alternate;
+      }
+
+      .light-2 {
+        bottom: -30px;
+        left: -30px;
+        animation: pulse 10s infinite alternate-reverse;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.8);
+          opacity: 0.3;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 0.1;
+        }
+      }
+
+      /* Responsividade para telas muito pequenas */
+      @media (max-width: 350px) {
+        .executive-portal {
+          padding: 20px 15px;
+        }
+        
+        h1 {
+          font-size: 1.6rem;
+        }
+        
+        .portal-subtitle {
+          font-size: 0.8rem;
+        }
+        
+        .input-field input {
+          padding: 12px 15px;
+        }
+        
+        .portal-btn {
+          padding: 12px;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Para orientação paisagem em dispositivos móveis */
+      @media (max-height: 500px) and (orientation: landscape) {
+        body {
+          padding: 10px;
+        }
+        
+        .executive-portal {
+          padding: 20px;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+        
+        .holographic-logo {
+          width: 60px;
+          height: 60px;
+          margin-bottom: 15px;
+        }
+        
+        .portal-header {
+          margin-bottom: 15px;
+        }
+        
+        h1 {
+          font-size: 1.5rem;
+        }
+        
+        .btn-container {
+          margin-top: 15px;
+          gap: 8px;
+        }
+        
+        .portal-footer {
+          margin-top: 15px;
+        }
+      }
+
+      /* Melhorias para dispositivos com telas maiores */
+      @media (min-width: 768px) {
+        .executive-portal {
+          max-width: 420px;
+        }
+      }
+    

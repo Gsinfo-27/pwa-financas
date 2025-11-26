@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GSInfo | Portal Executivo</title>
+    <link rel="stylesheet" href="./public/style.css">
+  </head>
+  <body>
+    <!-- Efeito de Partículas -->
+    <canvas id="particles" class="particles"></canvas>
+
+    <!-- Efeitos de Luz -->
+    <div class="light-effect light-1"></div>
+    <div class="light-effect light-2"></div>
+
+    <!-- Container Principal -->
+    <main class="executive-portal">
+      <!-- Logo Holográfico -->
+      <div class="holographic-logo">
+        <div class="logo-sphere">GS</div>
+      </div>
+
+      <!-- Cabeçalho -->
+      <header class="portal-header">
+        <h1>GSInfo</h1>
+        <p class="portal-subtitle">PORTAL EXECUTIVO</p>
+      </header>
+
+      <!-- Formulário -->
+      <form id="login-form" novalidate>
+  <div class="input-field">
+    <input type="text" id="username" required autocomplete="username" />
+    <label for="username">Usuário</label>
+  </div>
+
+  <div class="input-field">
+    <input type="password" id="password" required autocomplete="current-password" />
+    <label for="password">Senha</label>
+  </div>
+
+  <div class="btn-container">
+    <button class="portal-btn btn-login" id="login-btn">
+      <i class="fas fa-fingerprint"></i> ACESSO SEGURO
+    </button>
+
+    <button class="portal-btn btn-fechar" id="fechar">
+      <i class="fas fa-power-off"></i> ENCERRAR SESSÃO
+    </button>
+  </div>
+
+  <p id="login-error" class="error-message"></p>
+</form>
+
+    </main>
+    <!-- Inclua sua classe AuthService primeiro -->
+    <script src="./src/auth.js"></script>
+  
+</body>
+</html>

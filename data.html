@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSInfo - Restaurante</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="./public/main.css">
+</head>
+<body data-theme="light">
+    <div class="container">
+        <!-- Dashboard Screen -->
+        <div class="screen active" id="dashboard">
+            <div class="app-header">
+                <div class="header-top">
+                    <div class="logo">GSInfo</div>
+                    <div class="header-actions">
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <div class="user-info">
+                            <div class="user-avatar">GR</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">4.280 MT</div>
+                        <div class="stat-label">Receita Hoje</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">84%</div>
+                        <div class="stat-label">Ocupação</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-wallet"></i>
+                            Faturamento Total
+                        </div>
+                    </div>
+                    <div class="card-value">45.280 MT</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        12.5% desde último mês
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-utensils"></i>
+                            Pedidos Hoje
+                        </div>
+                    </div>
+                    <div class="card-value">84</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        8.2% desde ontem
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-receipt"></i>
+                            Despesas do Mês
+                        </div>
+                    </div>
+                    <div class="card-value">18.750 MT</div>
+                    <div class="card-change negative">
+                        <i class="fas fa-arrow-up"></i>
+                        5.3% desde último mês
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-users"></i>
+                            Clientes Atendidos
+                        </div>
+                    </div>
+                    <div class="card-value">1.247</div>
+                    <div class="card-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        15.8% desde último mês
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">Transações Recentes</div>
+                </div>
+                <div class="list">
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Venda #2847</h4>
+                            <div class="item-desc">2x Pizza, 1x Vinho</div>
+                        </div>
+                        <div class="item-amount">+850 MT</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Venda #2846</h4>
+                            <div class="item-desc">1x Risotto, 2x Cerveja</div>
+                        </div>
+                        <div class="item-amount">+620 MT</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Venda #2845</h4>
+                            <div class="item-desc">3x Hambúrguer, 1x Refri</div>
+                        </div>
+                        <div class="item-amount">+1.240 MT</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        Alertas de Estoque
+                        <span style="position: relative;">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge" id="alert-badge">3</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="list" id="alert-list">
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Cerveja Heineken</h4>
+                            <div class="item-desc">Stock: 12 unidades</div>
+                        </div>
+                        <div class="status status-low">Baixo</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Vinho Tinto</h4>
+                            <div class="item-desc">Stock: 8 unidades</div>
+                        </div>
+                        <div class="status status-low">Baixo</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Queijo Gouda</h4>
+                            <div class="item-desc">Stock: 5 unidades</div>
+                        </div>
+                        <div class="status status-low">Baixo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendas Screen -->
+        <div class="screen" id="vendas">
+            <div class="app-header">
+                <div class="header-top">
+                    <div class="logo">Vendas Diárias</div>
+                    <div class="header-actions">
+                        <button class="theme-toggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <div class="user-info">
+                            <div class="user-avatar">GR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <input type="date" placeholder="Selecione a data">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">Fechos de Caixa</div>
+                </div>
+                <div class="list">
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Turno Manhã</h4>
+                            <div class="item-desc">15 Jan 2024</div>
+                        </div>
+                        <div class="item-amount">1.850 MT</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Turno Tarde</h4>
+                            <div class="item-desc">15 Jan 2024</div>
+                        </div>
+                        <div class="item-amount">2.430 MT</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-info">
+                            <h4>Turno Noite</h4>
+                            <div class="item-desc">15 Jan 2024</div>
+                        </div>
+                        <div class="item-amount">2.150 MT</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Hoje</div>
+                    </div>
+                    <div class="card-value">4.280 MT</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pedidos</div>
+                    </div>
+                    <div class="card-value">84</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Cartão</div>
+                    </div>
+                    <div class="card-value">2.150 MT</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Dinheiro</div>
+                    </div>
+                    <div class="card-value">2.130 MT</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estoque Screen -->
+        <div class="screen" id="estoque">
+            <div class="app-header">
+                <div class="header-top">
+                    <div class="logo">Gestão de Estoque</div>
+                    <div class="header-actions">
+                        <button class="theme-toggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <div class="user-info">
+                            <div class="user-avatar">GR</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-grid" id="estoque-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="item">0</div>
+                        <div class="stat-label">Total Itens</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stok-em-falta">0</div>
+                        <div class="stat-label">Em Falta</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-Item">0</div>
+                        <div class="stat-label">Qtd Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="em-valor">0</div>
+                        <div class="stat-label">Valor Total</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Pesquisar produtos...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">Produtos</div>
+                    <div class="table-controls">
+                        <select id="category-filter" class="page-select">
+                            <option value="todos">Todos os produtos</option>
+                            <option value="bebidas">Bebidas</option>
+                            <option value="pratos">Pratos</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="carne">Carne</option>
+                        </select>
+                        <button class="page-btn" id="export-btn">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                        <button class="page-btn" id="refresh-btn">
+                            <i class="fas fa-sync"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>PRODUTO</th>
+                            <th>CATEGORIA</th>
+                            <th>STOCK</th>
+                            <th>PREÇO</th>
+                            <th>STATUS</th>
+                            <th width="90">AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="t-view-stok">
+                        <tr>
+                            <td colspan="7" class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando dados...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <div class="page-info" id="page-info">Página 1 de 1</div>
+                    <div class="page-controls">
+                        <button class="page-btn" id="prev-btn" disabled>
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </button>
+                        <select id="items-per-page" class="page-select">
+                            <option value="10">10 itens</option>
+                            <option value="25" selected>25 itens</option>
+                            <option value="50">50 itens</option>
+                            <option value="100">100 itens</option>
+                        </select>
+                        <button class="page-btn" id="next-btn" disabled>
+                            Próxima <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-screen="dashboard">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-label">Início</div>
+        </div>
+        <div class="nav-item" data-screen="vendas">
+            <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="nav-label">Vendas</div>
+        </div>
+        <div class="nav-item" data-screen="estoque">
+            <div class="nav-icon"><i class="fas fa-box"></i></div>
+            <div class="nav-label">Estoque</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-cog"></i></div>
+            <div class="nav-label">Mais</div>
+        </div>
+    </nav>
+<script src="./src/api.js"></script>
+</body>
+</html>
