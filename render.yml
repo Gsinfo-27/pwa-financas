@@ -1,0 +1,12 @@
+staticPublishPath: "/"
+headers:
+  - path: /service-worker.js
+    headers:
+      - name: Cache-Control
+        value: no-cache
+      - name: Service-Worker-Allowed
+        value: /
+  - path: /manifest.json
+    headers:
+      - name: Cache-Control
+        value: no-cache
