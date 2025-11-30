@@ -43,7 +43,12 @@
 
         <div class="btn-container">
           <button class="portal-btn btn-login" id="login-btn">
-            <i class="fas fa-fingerprint"></i> ACESSO SEGURO
+            <span class="btn-content">
+              <i class="fas fa-fingerprint"></i> ACESSO SEGURO
+            </span>
+            <span class="btn-loading">
+              <i class="fas fa-spinner"></i> PROCESSANDO
+            </span>
           </button>
 
           <button class="portal-btn btn-fechar" id="fechar">
@@ -53,14 +58,6 @@
 
         <p id="login-error" class="error-message"></p>
       </form>
-
-      <!-- Loading Overlay -->
-      <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-content">
-          <div class="loading-spinner"></div>
-          <p class="loading-text">Processando...</p>
-        </div>
-      </div>
     </main>
 
     <!-- Inclua sua classe AuthService primeiro -->
@@ -346,9 +343,10 @@
         );
         color: white;
         box-shadow: 0 4px 15px rgba(1, 43, 23, 0.3);
+        position: relative;
       }
 
-      .btn-login:hover {
+      .btn-login:hover:not(.loading) {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(6, 36, 22, 0.5);
         color: white;
@@ -391,6 +389,51 @@
         left: 100%;
       }
 
+      /* Estados do botão de login */
+      .btn-content, .btn-loading {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-loading {
+        display: none;
+      }
+
+      .btn-login.loading {
+        pointer-events: none;
+        opacity: 0.8;
+        background: linear-gradient(
+          135deg,
+          var(--verde-neon),
+          var(--verde-medio)
+        );
+      }
+
+      .btn-login.loading .btn-content {
+        display: none;
+      }
+
+      .btn-login.loading .btn-loading {
+        display: flex;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      .btn-login.loading .btn-loading i {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+      }
+
       .btn-fechar {
         background: rgba(116, 3, 3, 0.411);
         color: var(--branco);
@@ -401,70 +444,6 @@
       .btn-fechar:hover {
         background: rgba(187, 51, 10, 0.637);
         border-color: var(--dourado);
-      }
-
-      /* Loading Overlay */
-      .loading-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 100;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .loading-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .loading-content {
-        text-align: center;
-        color: white;
-      }
-
-      .loading-spinner {
-        width: 50px;
-        height: 50px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-top: 3px solid var(--verde-neon);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto 15px;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      .loading-text {
-        font-size: 1rem;
-        color: var(--branco);
-        animation: pulse 1.5s ease-in-out infinite;
-      }
-
-      @keyframes pulse {
-        0%, 100% { opacity: 0.7; }
-        50% { opacity: 1; }
-      }
-
-      /* Botão com estado de loading */
-      .btn-login.loading {
-        pointer-events: none;
-        opacity: 0.7;
-      }
-
-      .btn-login.loading i {
-        animation: spin 1s linear infinite;
       }
 
       /* Rodapé - Otimizado para mobile */
@@ -530,16 +509,16 @@
       .light-1 {
         top: -30px;
         right: -30px;
-        animation: pulse 8s infinite alternate;
+        animation: lightPulse 8s infinite alternate;
       }
 
       .light-2 {
         bottom: -30px;
         left: -30px;
-        animation: pulse 10s infinite alternate-reverse;
+        animation: lightPulse 10s infinite alternate-reverse;
       }
 
-      @keyframes pulse {
+      @keyframes lightPulse {
         0% {
           transform: scale(0.8);
           opacity: 0.3;
@@ -570,15 +549,6 @@
         
         .portal-btn {
           padding: 12px;
-          font-size: 0.9rem;
-        }
-        
-        .loading-spinner {
-          width: 40px;
-          height: 40px;
-        }
-        
-        .loading-text {
           font-size: 0.9rem;
         }
       }

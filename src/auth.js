@@ -7,27 +7,19 @@ class AuthService {
     };
   }
 
-  // Método para mostrar loading
+  // Método para mostrar loading sutil
   showLoading() {
-    const overlay = document.getElementById('loading-overlay');
     const loginBtn = document.getElementById('login-btn');
-    
-    if (overlay) overlay.classList.add('active');
     if (loginBtn) {
       loginBtn.classList.add('loading');
-      loginBtn.innerHTML = '<i class="fas fa-spinner"></i> PROCESSANDO...';
     }
   }
 
   // Método para esconder loading
   hideLoading() {
-    const overlay = document.getElementById('loading-overlay');
     const loginBtn = document.getElementById('login-btn');
-    
-    if (overlay) overlay.classList.remove('active');
     if (loginBtn) {
       loginBtn.classList.remove('loading');
-      loginBtn.innerHTML = '<i class="fas fa-fingerprint"></i> ACESSO SEGURO';
     }
   }
 
