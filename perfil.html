@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./public/perfil.css">
+</head>
+<body class="light-mode">
+    <div class="container">
+        <!-- HEADER FIXO COMPACTO -->
+        <div class="header">
+            <div class="header-top">
+                <div class="title">
+                    <i class="fas fa-user-circle"></i> Meu Perfil
+                </div>
+                <div class="controls">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="btn btn-primary" onclick="recarregar()">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="content">
+            <!-- CARD DE PERFIL -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="avatar-container">
+                        <div class="avatar" id="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <button class="edit-avatar-btn" onclick="abrirModalEditarPerfil()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="profile-info">
+                        <h2 class="profile-name" id="profile-name">Carregando...</h2>
+                        <p class="profile-role" id="profile-role">-</p>
+                        <p class="profile-email" id="profile-email">-</p>
+                        <p class="profile-phone" id="profile-phone">-</p>
+                    </div>
+                </div>
+
+                <!-- STATS DO USUÁRIO -->
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="dias-cadastro">-</div>
+                            <div class="stat-label">Dias Cadastrado</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-badge-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="status-conta">-</div>
+                            <div class="stat-label">Status da Conta</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="nivel-acesso">-</div>
+                            <div class="stat-label">Nível de Acesso</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFORMACOES PESSOAIS -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-id-card"></i> Informações Pessoais
+                </h3>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Nome Completo</label>
+                        <div class="info-value" id="info-nome">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Apelido</label>
+                        <div class="info-value" id="info-apelido">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Documento</label>
+                        <div class="info-value" id="info-documento">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Data de Nascimento</label>
+                        <div class="info-value" id="info-nascimento">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Sexo</label>
+                        <div class="info-value" id="info-sexo">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Localização</label>
+                        <div class="info-value" id="info-localizacao">-</div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="abrirModalEditarPerfil()">
+                        <i class="fas fa-edit"></i> Editar Perfil
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONFIGURAÇÕES DE SEGURANÇA -->
+            <div class="security-section">
+                <h3 class="section-title">
+                    <i class="fas fa-shield-alt"></i> Segurança
+                </h3>
+                
+                <div class="security-actions">
+                    <button class="security-btn" onclick="abrirModalSenha()">
+                        <i class="fas fa-key"></i>
+                        <span>Alterar Senha</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <button class="security-btn" onclick="abrirModalSessoes()">
+                        <i class="fas fa-desktop"></i>
+                        <span>Sessões Ativas</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <div class="nav-item" onclick="tela('data')">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-label">Inicio</div>
+        </div>
+        <div class="nav-item active" onclick="tela('perfil')">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div class="nav-label">Perfil</div>
+        </div>
+    
+        <div class="nav-item"  onclick="tela('estoque')">
+            <div class="nav-icon"><i class="fas fa-box"></i></div>
+            <div class="nav-label">Estoque</div>
+        </div>
+    </nav>
+ <script src="./src/perfil.js"></script>
+    <script src="./app.js"></script>
+    <script src="./src/util.js"></script>
+   
+ 
+</body>
+</html>

@@ -1,14 +1,39 @@
 class AuthService {
   constructor() {
-    this.baseUrl = 'https://api-restaurante-ci00.onrender.com';
+    this.baseUrl = 'https://api-restaurante-1-6u7x.onrender.com';
     this.tokenKey = 'authToken';
-
     this.roleToPage = {
       ROLE_ADMIN: "data",
     };
   }
 
+  // Método para mostrar loading
+  showLoading() {
+    const overlay = document.getElementById('loading-overlay');
+    const loginBtn = document.getElementById('login-btn');
+    
+    if (overlay) overlay.classList.add('active');
+    if (loginBtn) {
+      loginBtn.classList.add('loading');
+      loginBtn.innerHTML = '<i class="fas fa-spinner"></i> PROCESSANDO...';
+    }
+  }
+
+  // Método para esconder loading
+  hideLoading() {
+    const overlay = document.getElementById('loading-overlay');
+    const loginBtn = document.getElementById('login-btn');
+    
+    if (overlay) overlay.classList.remove('active');
+    if (loginBtn) {
+      loginBtn.classList.remove('loading');
+      loginBtn.innerHTML = '<i class="fas fa-fingerprint"></i> ACESSO SEGURO';
+    }
+  }
+
   async login(username, password) {
+    this.showLoading();
+    
     const url = `${this.baseUrl}/api/user/login`;
 
     try {
@@ -20,13 +45,15 @@ class AuthService {
 
       if (!response.ok) {
         this.showError("Usuário ou senha inválidos!");
+        this.hideLoading();
         return false;
       }
-      console.log(response)
+
       const data = await response.json();
 
       if (!data.token) {
         this.showError("Token inválido!");
+        this.hideLoading();
         return false;
       }
 
@@ -47,10 +74,12 @@ class AuthService {
       }
 
       this.showError("Funcionário não cadastrado!");
+      this.hideLoading();
       return false;
 
     } catch (error) {
       this.showError("Erro ao conectar com o servidor!");
+      this.hideLoading();
       return false;
     }
   }

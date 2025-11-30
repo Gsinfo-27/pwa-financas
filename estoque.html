@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./public/estoque.css">
+</head>
+<body class="light-mode">
+    <div class="container">
+        <!-- HEADER FIXO COM FILTROS -->
+        <div class="header">
+            <div class="header-top">
+                <div class="title">
+                    <i class="fas fa-boxes"></i> Gestão de Stock
+                </div>
+                <div class="controls">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Pesquisar produtos...">
+                        <button class="search-btn" id="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="btn btn-primary" id="refresh-btn">
+                        <i class="fas fa-sync"></i> Atualizar
+                    </button>
+                    <button class="btn btn-primary" onclick="recarregar()">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+
+        <!-- STATS CARDS - NÃO FIXAS -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="item">0</div>
+                <div class="stat-label">TOTAL ITENS</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stok-em-falta">0</div>
+                <div class="stat-label">EM FALTA</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-Item">0</div>
+                <div class="stat-label">QUANTIDADE TOTAL</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="em-valor">0</div>
+                <div class="stat-label">VALOR TOTAL</div>
+            </div>
+
+ <!-- FILTROS NO HEADER -->
+            <div class="table-controls stat-card">
+                <select id="view-mode" >
+                    <option value="lotes">Visualização por Lotes</option>
+                    <option value="consolidado">Visualização Consolidada</option>
+                </select>
+                <select id="category-filter">
+                    <option value="todos">Todos os produtos</option>
+                    <option value="bebidas">Bebidas</option>
+                    <option value="pratos">Pratos</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="carne">Carnes</option>
+                    <option value="sobremesas">sobremesas</option>
+                </select>
+                <button class="btn" id="export-btn">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+
+
+        </div>
+
+       
+        <!-- CONTEÚDO COM TABELA FIXA -->
+        <div class="content">
+            <!-- TABELA FIXA COM SCROLL INTERNO -->
+            <div class="table-container">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>PRODUTO</th>
+                                <th>CATEGORIA</th>
+                                <th>STOCK</th>
+                                <th>PREÇO</th>
+                                <th>VALOR TOTAL</th>
+                                <th>DATA ENTRADA</th>
+                                <th>STATUS</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="t-view-stok">
+                            <tr>
+                                <td colspan="9" style="text-align: center; padding: 30px; color: #666;">
+                                    <i class="fas fa-spinner fa-spin"></i> Carregando dados...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PAGINAÇÃO FIXA -->
+                <div class="pagination">
+                    <div class="page-info" id="page-info">Página 1 de 1</div>
+                    <div class="page-controls">
+                        <button class="page-btn" id="prev-btn" disabled>
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </button>
+                        <select id="items-per-page">
+                            <option value="10">10 itens</option>
+                            <option value="25" selected>25 itens</option>
+                            <option value="50">50 itens</option>
+                            <option value="100">100 itens</option>
+                        </select>
+                        <button class="page-btn" id="next-btn" disabled>
+                            Próxima <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <div class="nav-item" onclick="tela('data')">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-label">Inicio</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon" onclick="tela('perfil')"><i class="fas fa-user"></i></div>
+            <div class="nav-label">Perfil</div>
+        </div>
+       
+        <div class="nav-item active">
+            <div class="nav-icon" onclick="tela('estoque')"><i class="fas fa-box"></i></div>
+            <div class="nav-label">Estoque</div>
+        </div>
+    </nav>
+    <script src="./src/util.js"></script>
+    <script src="./src/stoque.js"></script>
+    <script src="./app.js"></script>
+     
+    <script>
+        // Toggle Dark/Light Mode
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            body.classList.remove('light-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            body.classList.add('light-mode');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+    </script>
+</body>
+</html>
