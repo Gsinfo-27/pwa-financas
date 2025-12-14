@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Stock - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./public/mobileArmazem.css">
+</head>
+
+<body>
+    <!-- Desktop Layout -->
+    <div class="app-container">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="logo">
+                <i class="fas fa-boxes"></i>
+                <h1>GSInfo-Armazem </h1>
+            </div>
+
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar produtos...">
+            </div>
+
+            <div class="user-actions">
+                <button class="btn-icon" title="Atualizar" id="ver">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="btn-icon" title="Perfil" onclick="tela('perfil')">
+                    <i class="fas fa-user"></i>
+                </button>
+                <button class="btn-icon logout" title="Sair" id="sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel - Product Form -->
+            <div class="left-panel">
+                <div class="form-card">
+                    <h3><i class="fas fa-edit"></i> Gestão de Produtos</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>ID do Produto</label>
+                            <input type="text" id="idProduto" placeholder="ID" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Código Interno</label>
+                            <input type="text" id="codInterno" placeholder="Código Interno" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Código de Barras</label>
+                            <input type="text" id="codBarras" placeholder="Código de Barras">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Descrição</label>
+                            <input type="text" id="descricao" placeholder="Descrição">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="categoria">
+                                <option value="entradas">Entradas</option>
+                                <option value="pratos">Pratos Principais</option>
+                                <option value="bebidas">Bebidas</option>
+                                <option value="sobremesas">Sobremesas</option>
+                                <option value="drinks">Drinks</option>
+                                <option value="promoções">Promoções</option>
+                                <option value="carnes">Carnes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantidade/Peso</label>
+                            <input type="text" id="quantPeso" placeholder="Quantidade/Peso">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Custo</label>
+                            <input type="text" id="custo" placeholder="Custo">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Outros Encargos</label>
+                            <input type="text" id="encargos" placeholder="Outros Encargos">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tempo Validade (dias)</label>
+                            <input type="number" id="tempoValidade" value="2" min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mês Validade</label>
+                            <select id="periodoValidade">
+                                <option value="01">Janeiro</option>
+                                <option value="02">Fevereiro</option>
+                                <option value="03">Março</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Maio</option>
+                                <option value="06">Junho</option>
+                                <option value="07">Julho</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ano Validade</label>
+                            <input type="number" id="anoValidade" value="2025" min="2023" max="2100">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preço de Venda</label>
+                            <input type="text" id="precoVenda" placeholder="Preço de Venda">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipo de Unidade</label>
+                            <select id="tipoUnidade">
+                                <option value="">Unidade</option>
+                                <option value="L">Litro</option>
+                                <option value="K">Kilo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-primary" id="adicionar">
+                            <i class="fas fa-save"></i> Adicionar Stock
+                        </button>
+                        <button class="btn btn-secondary" id="limpar">
+                            <i class="fas fa-plus-circle"></i> Novo
+                        </button>
+                       
+                        <button class="btn btn-info" id="edit-stoke">
+                            <i class="fas fa-edit"></i> Editar Stock
+                        </button>
+                        <button class="btn btn-danger" id="eliminar">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Products Table -->
+            <div class="right-panel">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3><i class="fas fa-table"></i> Produtos em Stock</h3>
+                        <div class="table-controls">
+                            <select id="category-filter">
+                                <option value="">Todas as Categorias</option>
+                                <option value="entradas">Entradas</option>
+                                <option value="pratos">Pratos Principais</option>
+                                <option value="bebidas">Bebidas</option>
+                                <option value="sobremesas">Sobremesas</option>
+                                <option value="drinks">Drinks</option>
+                                <option value="promoções">Promoções</option>
+                                <option value="carnes">Carnes</option>
+                            </select>
+                            <div class="pagination-controls">
+                                <button class="btn-icon" onclick="decrementar()">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span>Página <span id="dush">1</span> de <span id="plus">1</span></span>
+                                <button class="btn-icon" onclick="incrementar()">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Código</th>
+                                    <th>Código Barras</th>
+                                    <th>Descrição</th>
+                                    <th>Categoria</th>
+                                    <th>Quantidade</th>
+                                    <th>Custo</th>
+                                    <th>Preço</th>
+                                    <th>Validade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaProdutos">
+                                <!-- Produtos serão carregados aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-footer">
+                        <div class="total-info">
+                            <strong>Valor Total em Stock:</strong>
+                            <span class="total-value" id="totalValue">0.00</span>
+                        </div>
+                        <div class="pagination-info">
+                            Mostrando <span id="inicioItens">1</span> a <span id="fimItens">10</span> de <span
+                                id="totalItens">0</span> produtos
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Layout -->
+    <div class="mobile-container">
+        <header class="mobile-header">
+        <div class="mobile-logo">
+            <i class="fas fa-boxes"></i>
+            <h2>GSInfo-Armazem</h2>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Overlay para fechar menu -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <!-- Header do menu (opcional) -->
+        <div class="mobile-nav-header">
+            <div class="mobile-nav-title">Menu</div>
+            <button class="mobile-nav-close" id="mobileNavClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Itens do menu -->
+        <div class="mobile-nav-items">
+            <button class="mobile-nav-item" onclick="tela('perfil')">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </button>
+            <button class="mobile-nav-item" id="mobileAtualizar">
+                <i class="fas fa-sync-alt"></i>
+                <span>Atualizar</span>
+            </button>
+            <button class="mobile-nav-item" onclick="tela('estoque')">
+                <i class="fas fa-box"></i>
+                <span>Estoque</span>
+            </button>
+            <button class="mobile-nav-item" onclick="tela('relatorios')">
+                <i class="fas fa-chart-bar"></i>
+                <span>Relatórios</span>
+            </button>
+            <button class="mobile-nav-item" onclick="tela('configuracoes')">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </button>
+            <button class="mobile-nav-item logout" id="mobileSair">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </button>
+        </div>
+    </nav>
+        <!-- Mobile Content -->
+        <main class="mobile-content">
+            <!-- Stats Cards -->
+            <div class="mobile-stats">
+                <div class="stat-card">
+                    <i class="fas fa-box"></i>
+                    <div class="stat-info">
+                        <span class="stat-value" id="mobileTotalProducts">0</span>
+                        <span class="stat-label">Produtos</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-money-bill"></i>
+                    <div class="stat-info">
+                        <span class="stat-value" id="mobileTotalValueDisplay">0.00 MT</span>
+                        <span class="stat-label">Valor Total</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Form -->
+            <div class="mobile-form-card">
+                <h3><i class="fas fa-plus-circle"></i> Gestão de Produtos</h3>
+
+                <div class="mobile-form">
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <input type="text" id="mobileDescricao" placeholder="Nome do produto">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="mobileCategoria">
+                                <option value="entradas">Entradas</option>
+                                <option value="pratos">Pratos Principais</option>
+                                <option value="bebidas">Bebidas</option>
+                                <option value="sobremesas">Sobremesas</option>
+                                <option value="drinks">Drinks</option>
+                                <option value="promoções">Promoções</option>
+                                <option value="carnes">Carnes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantidade</label>
+                            <input type="text" id="mobileQuantidade" placeholder="Quantidade">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Custo (MT)</label>
+                            <input type="text" id="mobileCusto" placeholder="Custo">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preço (MT)</label>
+                            <input type="text" id="mobilePreco" placeholder="Preço de venda">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Código de Barras</label>
+                            <input type="text" id="mobileCodBarras" placeholder="Código de Barras">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Outros Encargos</label>
+                            <input type="text" id="mobileEncargos" placeholder="Encargos (MT)">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo de Unidade</label>
+                            <select id="mobileTipoUnidade">
+                                <option value="">Unidade</option>
+                                <option value="L">Litro</option>
+                                <option value="K">Kilo</option>
+                                <option value="G">Grama</option>
+                                <option value="ML">Mililitro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="button" class="show-full-form-btn" id="showFullFormBtn">
+                        <i class="fas fa-expand-alt"></i> Configurações de Validade
+                    </button>
+
+                    <!-- Formulário completo (inicialmente escondido) -->
+                    <div class="mobile-full-form" id="mobileFullForm">
+                        <div class="form-row mobile-validity-fields">
+                            <div class="form-group">
+                                <label>Tempo (dias)</label>
+                                <input type="number" id="mobileTempoValidade" value="30" min="1">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Mês</label>
+                                <select id="mobilePeriodoValidade">
+                                    <option value="01">Jan</option>
+                                    <option value="02">Fev</option>
+                                    <option value="03">Mar</option>
+                                    <option value="04">Abr</option>
+                                    <option value="05">Mai</option>
+                                    <option value="06">Jun</option>
+                                    <option value="07">Jul</option>
+                                    <option value="08">Ago</option>
+                                    <option value="09">Set</option>
+                                    <option value="10">Out</option>
+                                    <option value="11">Nov</option>
+                                    <option value="12">Dez</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Ano</label>
+                                <input type="number" id="mobileAnoValidade" value="2025" min="2023" max="2100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-form-actions">
+                        <button class="btn btn-primary" id="mobileAdicionar">
+                            <i class="fas fa-save"></i> Salvar
+                        </button>
+                        <button class="btn btn-secondary" id="mobileLimpar">
+                            <i class="fas fa-times"></i> Limpar
+                        </button>
+                        <button class="btn btn-info" id="mobileEditar" style="display: none;">
+                            <i class="fas fa-edit"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Products List -->
+            <div class="mobile-products">
+                <div class="mobile-table-filter">
+                    <input type="text" 
+                           id="mobileSearchInput" 
+                           class="mobile-search-input" 
+                           placeholder="Buscar produtos...">
+                    
+                    <select id="mobileCategoryFilter" class="mobile-filter-select">
+                        <option value="">Todas as Categorias</option>
+                        <option value="entradas">Entradas</option>
+                        <option value="pratos">Pratos Principais</option>
+                        <option value="bebidas">Bebidas</option>
+                        <option value="sobremesas">Sobremesas</option>
+                        <option value="drinks">Drinks</option>
+                        <option value="promoções">Promoções</option>
+                        <option value="carnes">Carnes</option>
+                    </select>
+                </div>
+                
+                <div class="mobile-table-container">
+                    <table class="mobile-products-table">
+                        <thead class="mobile-table-header">
+                            <tr>
+                                <th>ID</th>
+                                <th>Código</th>
+                                <th>Cód Barras</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Qtd</th>
+                                <th>Custo</th>
+                                <th>Preço</th>
+                                <th>Validade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="mobile-table-body" id="mobileProductsTableBody">
+                            <!-- Produtos serão carregados aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mobile-table-footer">
+                    <div class="mobile-total-info">
+                        <span>Total Stock: </span>
+                        <span class="mobile-total-value" id="mobileTotalValue">0.00 MT</span>
+                    </div>
+                    
+                    <div class="mobile-pagination-info">
+                        <span id="mobileItemsInfo">0 produtos</span>
+                    </div>
+                </div>
+                
+                <div class="mobile-pagination-compact">
+                    <button class="mobile-pagination-btn" onclick="prevPageMobile()" id="mobilePrevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <span class="mobile-page-info">
+                        Página <span id="mobileCurrentPage">1</span>
+                    </span>
+                    
+                    <button class="mobile-pagination-btn" onclick="nextPageMobile()" id="mobileNextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="mobile-bottom-nav">
+            <button class="bottom-nav-item" data-section="stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Estatísticas</span>
+            </button>
+            <button class="bottom-nav-item active" data-section="products">
+                <i class="fas fa-boxes"></i>
+                <span>Produtos</span>
+            </button>
+            <button class="bottom-nav-item" data-section="add">
+                <i class="fas fa-plus-circle"></i>
+                <span>Adicionar</span>
+            </button>
+            <button class="bottom-nav-item" id="mobileRefreshBtn">
+                <i class="fas fa-sync-alt"></i>
+                <span>Atualizar</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./src/notification.js"></script> <!-- ADICIONE ESTE PRIMEIRO -->
+    <script src="./src/common.js"></script>
+    <script src="./src/armazem.js"></script>
+    <script src="./src/armazem_mobile.js"></script>
+    <script src="./src/util.js"></script>
+ <script>
+        // Testar se o sistema de notificações está funcionando
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Sistema pronto!');
+            
+            // Teste opcional do sistema de notificações
+            setTimeout(() => {
+                if (typeof notification !== 'undefined') {
+                    notification.info('Sistema carregado', 'O gestor de stock está pronto para uso!');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

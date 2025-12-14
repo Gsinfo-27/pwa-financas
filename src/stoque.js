@@ -5,13 +5,16 @@ let dadosFiltrados = [];
 let dadosLotes = null;
 let dadosConsolidados = null;
 let modoVisualizacao = 'lotes'; // 'lotes' ou 'consolidado'
-const base_url='https://api-restaurante-1-6u7x.onrender.com'
+
 // Inicializar
 document.addEventListener('DOMContentLoaded', function() {
     init();
     carregarDados();
 });
 
+function base_url() {
+    return localStorage.getItem("keygen");
+}
 function init() {
     // Eventos
     document.getElementById('view-mode').addEventListener('change', function(e) {
@@ -42,8 +45,8 @@ async function carregarDados() {
     try {
         // Carrega ambos os datasets
         const [lotesResponse, consolidadoResponse] = await Promise.all([
-            requis(`${base_url}/api/produtos/listar-lotes`),
-            requis(`${base_url}/api/produtos/lerTudo`)
+            requis(`${base_url()}/api/produtos/listar-lotes`),
+            requis(`${base_url()}/api/produtos/lerTudo`)
         ]);
 
         dadosLotes = lotesResponse;

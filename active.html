@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GSInfo - Ativação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./public/active.css">
+</head>
+<body>
+    <!-- Folhas decorativas -->
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <h1>GSInfo</h1>
+                <p>Ativação da Licença</p>
+            </div>
+
+            <div id="statusMessage" class="status info">
+                <i class="fas fa-info-circle"></i>
+                <span>Digite seu código de ativação</span>
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-key"></i>
+                <input type="text" id="activationCode" 
+                       placeholder="Código: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                       maxlength="36">
+            </div>
+            <span class="format-hint">Formato: 1e998a03-637e-4893-b3c6-fd8b9bd8ad90</span>
+
+            <button type="button" id="submitBtn" class="btn btn-primary">
+                <i class="fas fa-rocket"></i>
+                <span id="btnText">Ativar Sistema</span>
+            </button>
+
+        
+            <div class="simple-guide">
+                <p><i class="fas fa-lightbulb"></i> 
+                    Encontre seu código no email("caixa de entrada ou no span") de compra.
+                </p>
+            </div>
+
+            <div class="footer">
+                GSInfo © 2024
+                <br>
+                <a href="#">Ajuda</a> • <a href="#">Suporte</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

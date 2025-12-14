@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Acesso ao Sistema</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+    <!-- Tela FIXA completa -->
+    <div class="screen-container">
+        <!-- Botão de Tema FIXO -->
+        <button class="theme-toggle-fixed" id="themeToggle" aria-label="Alternar entre tema claro e escuro">
+            <i class="fas fa-sun"></i>
+        </button>
+        
+        <!-- Conteúdo principal CENTRALIZADO -->
+        <div class="main-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="logo-container">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h1>Acesso Seguro</h1>
+                    <p>Insira sua chave de 32 caracteres</p>
+                </div>
+                
+                <div class="card-body">
+                    <div class="status-message visible" id="statusMessage">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="messageText">Digite sua chave de acesso</span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>Chave de Acesso</span>
+                            <span class="char-counter" id="charCounter">0/32</span>
+                        </label>
+                        
+                        <div class="input-container">
+                            <div class="input-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <input 
+                                type="password" 
+                                class="key-input" 
+                                id="accessKey"
+                                placeholder="Digite sua chave aqui"
+                                maxlength="32"
+                                autocomplete="off"
+                                autocapitalize="off"
+                                spellcheck="false"
+                            >
+                            <div class="input-actions">
+                                <button class="action-btn" id="toggleBtn" title="Mostrar/ocultar chave">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" id="clearBtn" title="Limpar campo">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-indicator" id="progressIndicator">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                    
+                    <button class="primary-btn" id="submitBtn">
+                        <span>Continuar</span>
+                        <div class="spinner" id="spinner"></div>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Footer FIXO na parte inferior -->
+            <div class="footer-fixed">
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Suporte</a>
+                    <a href="#" class="footer-link">Recuperar Chave</a>
+                    <a href="#" class="footer-link">Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos DOM
+            const accessKey = document.getElementById('accessKey');
+            const toggleBtn = document.getElementById('toggleBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const spinner = document.getElementById('spinner');
+            const statusMessage = document.getElementById('statusMessage');
+            const messageText = document.getElementById('messageText');
+            const charCounter = document.getElementById('charCounter');
+            const progressIndicator = document.getElementById('progressIndicator');
+            const progressFill = document.getElementById('progressFill');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Bloquear zoom em mobile
+            document.addEventListener('touchstart', function(event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            }, { passive: false });
+            
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+            
+            // Sistema de Tema
+            function initTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                    enableDarkMode();
+                } else {
+                    enableLightMode();
+                }
+            }
+            
+            function enableDarkMode() {
+                document.body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-sun';
+                themeToggle.setAttribute('aria-label', 'Alternar para tema claro');
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            function enableLightMode() {
+                document.body.classList.remove('dark-mode');
+                themeIcon.className = 'fas fa-moon';
+                themeToggle.setAttribute('aria-label', 'Alternar para tema escuro');
+                localStorage.setItem('theme', 'light');
+            }
+            
+            function toggleTheme() {
+                if (document.body.classList.contains('dark-mode')) {
+                    enableLightMode();
+                } else {
+                    enableDarkMode();
+                }
+            }
+            
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Alternar visibilidade da chave
+            toggleBtn.addEventListener('click', function() {
+                const type = accessKey.getAttribute('type') === 'password' ? 'text' : 'password';
+                accessKey.setAttribute('type', type);
+                
+                const icon = this.querySelector('i');
+                if (type === 'text') {
+                    icon.className = 'fas fa-eye-slash';
+                    this.title = 'Ocultar chave';
+                    accessKey.style.fontFamily = "'Menlo', 'Monaco', 'Courier New', monospace";
+                } else {
+                    icon.className = 'fas fa-eye';
+                    this.title = 'Mostrar chave';
+                    accessKey.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+                }
+            });
+            
+            // Limpar campo
+            clearBtn.addEventListener('click', function() {
+                accessKey.value = '';
+                updateUI('');
+                showMessage('Digite sua chave de acesso', 'info');
+                accessKey.focus();
+            });
+            
+            // Mostrar mensagem
+            function showMessage(text, type = 'info') {
+                messageText.textContent = text;
+                statusMessage.className = `status-message visible ${type}`;
+                
+                const icon = statusMessage.querySelector('i');
+                if (type === 'success') {
+                    icon.className = 'fas fa-check-circle';
+                } else if (type === 'error') {
+                    icon.className = 'fas fa-exclamation-circle';
+                } else {
+                    icon.className = 'fas fa-info-circle';
+                }
+            }
+            
+            // Atualizar UI
+            function updateUI(value) {
+                const count = value.length;
+                charCounter.textContent = `${count}/32`;
+                
+                const progress = (count / 32) * 100;
+                progressFill.style.width = `${progress}%`;
+                
+                if (count > 0) {
+                    progressIndicator.style.display = 'block';
+                    
+                    if (count === 32) {
+                        progressFill.style.background = 'var(--success)';
+                        showMessage('Chave completa ✓', 'success');
+                    } else if (count > 24) {
+                        progressFill.style.background = '#FF9500';
+                        showMessage(`${32-count} caracteres restantes`, 'info');
+                    } else {
+                        progressFill.style.background = 'var(--primary)';
+                        showMessage('Digite sua chave de acesso', 'info');
+                    }
+                } else {
+                    progressIndicator.style.display = 'none';
+                    showMessage('Digite sua chave de acesso', 'info');
+                }
+            }
+            
+            // Monitorar entrada
+            accessKey.addEventListener('input', function() {
+                this.value = this.value.replace(/[^A-Za-z0-9]/g, '').substring(0, 32);
+                updateUI(this.value);
+            });
+            
+            // Validar chave
+            function validateKey(key) {
+                if (!key) {
+                    return { valid: false, message: 'Por favor, insira a chave de acesso' };
+                }
+                
+                if (key.length !== 32) {
+                    return { valid: false, message: `A chave deve ter 32 caracteres (atual: ${key.length})` };
+                }
+                
+                if (!/^[A-Za-z0-9]{32}$/.test(key)) {
+                    return { valid: false, message: 'Use apenas letras (A-Z, a-z) e números (0-9)' };
+                }
+                
+                return { valid: true, message: 'Chave válida' };
+            }
+            
+            // Submeter
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const key = accessKey.value.trim();
+                const validation = validateKey(key);
+                
+                if (!validation.valid) {
+                    showMessage(validation.message, 'error');
+                    accessKey.focus();
+                    return;
+                }
+                
+                verifyKey(key);
+            });
+            
+            // Verificar chave
+            function verifyKey(key) {
+                submitBtn.disabled = true;
+                spinner.style.display = 'block';
+                submitBtn.querySelector('span').textContent = 'Verificando...';
+                
+                setTimeout(() => {
+                    const success = true;
+                    
+                    if (success) {
+                        showMessage('✓ Chave verificada com sucesso! Redirecionando...', 'success');
+                        
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Acesso Concedido';
+                        submitBtn.style.background = 'var(--success)';
+                        
+                        setTimeout(() => {
+                            console.log('Acesso concedido para chave:', key.substring(0, 8) + '...');
+                            resetForm();
+                        }, 1500);
+                    } else {
+                        showMessage('✗ Falha na verificação da chave', 'error');
+                        resetButtonState();
+                        accessKey.focus();
+                        accessKey.select();
+                    }
+                }, 1500);
+            }
+            
+            // Resetar botão
+            function resetButtonState() {
+                submitBtn.disabled = false;
+                spinner.style.display = 'none';
+                submitBtn.querySelector('span').textContent = 'Continuar';
+                submitBtn.innerHTML = '<span>Continuar</span><div class="spinner" id="spinner"></div><i class="fas fa-arrow-right"></i>';
+                submitBtn.style.background = 'var(--primary)';
+            }
+            
+            // Resetar formulário
+            function resetForm() {
+                setTimeout(() => {
+                    accessKey.value = '';
+                    updateUI('');
+                    resetButtonState();
+                    showMessage('Digite sua chave de acesso', 'info');
+                    accessKey.focus();
+                }, 2000);
+            }
+            
+            // Permitir Enter para submeter
+            accessKey.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitBtn.click();
+                }
+            });
+            
+            // Colar chave
+            accessKey.addEventListener('paste', function(e) {
+                setTimeout(() => {
+                    this.value = this.value.replace(/[^A-Za-z0-9]/g, '').substring(0, 32);
+                    updateUI(this.value);
+                }, 10);
+            });
+            
+            // Inicializar
+            initTheme();
+            updateUI('');
+            
+            // Foco automático no campo de entrada
+            setTimeout(() => {
+                accessKey.focus();
+            }, 500);
+            
+            // Ajustar altura em mobile quando teclado aparece
+            window.addEventListener('resize', function() {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            });
+        });
+    </script>
+</body>
+</html>

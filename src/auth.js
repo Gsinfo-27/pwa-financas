@@ -1,34 +1,34 @@
 class AuthService {
   constructor() {
-    this.baseUrl = 'https://api-restaurante-1-6u7x.onrender.com';
     this.tokenKey = 'authToken';
     this.roleToPage = {
       ROLE_ADMIN: "data",
     };
   }
 
-  // Método para mostrar loading sutil
-  showLoading() {
-    const loginBtn = document.getElementById('login-btn');
-    if (loginBtn) {
-      loginBtn.classList.add('loading');
-    }
+  baseUrl() {
+    return localStorage.getItem("keygen");
   }
 
-  // Método para esconder loading
+  showLoading() {
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) loginBtn.classList.add('loading');
+  }
+
   hideLoading() {
     const loginBtn = document.getElementById('login-btn');
-    if (loginBtn) {
-      loginBtn.classList.remove('loading');
-    }
+    if (loginBtn) loginBtn.classList.remove('loading');
   }
 
   async login(username, password) {
+
+
     this.showLoading();
-    
-    const url = `${this.baseUrl}/api/user/login`;
 
     try {
+      const base = await this.baseUrl();
+      const url = `${base}/api/user/login`;
+
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -70,6 +70,7 @@ class AuthService {
       return false;
 
     } catch (error) {
+      console.error(error);
       this.showError("Erro ao conectar com o servidor!");
       this.hideLoading();
       return false;
@@ -77,7 +78,8 @@ class AuthService {
   }
 
   async sessao(usuario) {
-    let url = `${this.baseUrl}/api/user/sessao?nome=${usuario}`;
+    const base = await this.baseUrl(); // CORREÇÃO AQUI
+    let url = `${base}/api/user/sessao?nome=${usuario}`;
     await this.requisicao(url);
   }
 
@@ -112,8 +114,8 @@ class AuthService {
       });
 
       if (!response.ok) throw new Error();
-
       return await response.json();
+
     } catch (error) {
       console.error("Erro:", error);
     }
@@ -132,14 +134,15 @@ class AuthService {
   }
 
   initLogin() {
-    const form = document.getElementById("login-form");
     const loginBtn = document.getElementById("login-btn");
     const sair = document.getElementById("fechar");
 
-    sair.addEventListener("click", async (e) => {
+    console.log("init login...");
+
+    sair.addEventListener("click", (e) => {
       e.preventDefault();
       window.close();
-    })
+    });
 
     loginBtn.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -157,7 +160,7 @@ class AuthService {
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+export function initAcess() {
   const auth = new AuthService();
   auth.initLogin();
-});
+}
