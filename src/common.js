@@ -9,7 +9,7 @@ window.commons = {
 };
 
 // ========== FUNÇÕES DE API ==========
-function base_url() {
+window.base_url=()=> {
     return localStorage.getItem("keygen");
 }
 
@@ -169,8 +169,7 @@ function mostrarNotificacao(message, type = 'info') {
 window.incrementar = async () => {
     if (window.commons.currentPage < window.commons.totalPages) {
         window.commons.currentPage++;
-        console.log(`Incrementando para página: ${window.commons.currentPage}`);
-        
+       
         // Disparar evento para recarregar produtos
         const event = new CustomEvent('paginaAlterada', { 
             detail: { pagina: window.commons.currentPage } 

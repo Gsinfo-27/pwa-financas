@@ -6,7 +6,7 @@ let mobileCurrentPage = 1;
 
 // ========== INICIALIZAÇÃO MOBILE ==========
 function initMobile() {
-    console.log('=== INICIALIZANDO APP MOBILE ===');
+   
     
     try {
         // Elementos do formulário mobile
@@ -173,7 +173,7 @@ function limparFormularioMobile() {
 
 // ========== FUNÇÕES DE PRODUTOS MOBILE ==========
 async function adicionarProdutoMobile() {
-    console.log('Adicionando produto mobile...');
+  
     
     // Validar campos obrigatórios
     const camposObrigatorios = [mobileDOM.descricao, mobileDOM.custo, mobileDOM.quantidade];
@@ -541,7 +541,7 @@ async function excluirProdutoMobile(idProduto) {
             });
 
             if (response.ok) {
-                window.commons.mostrarNotificacao("Produto excluído com sucesso!", "success");
+                window.commons.mostrarNotificacao("Produto excluído com sucesso!", "ssuccess");
                 await carregarProdutosMobile();
                 limparFormularioMobile();
             } else {
@@ -735,7 +735,7 @@ if (mobileDOM.btnSair) {
 
 // ========== INICIALIZAÇÃO MOBILE ==========
 function initMobileApp() {
-    console.log('=== INICIANDO APLICAÇÃO MOBILE ===');
+    
     
     // Verificar se estamos no layout mobile
     const mobileContainer = document.querySelector('.mobile-container');
@@ -807,4 +807,3 @@ window.testarMobile = function() {
     }
 };
 
-console.log('Mobile JS carregado e pronto!');

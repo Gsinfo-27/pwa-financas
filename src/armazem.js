@@ -6,7 +6,7 @@ let produtoEditando = null;
 
 // ========== INICIALIZAÇÃO DESKTOP ==========
 function initDesktop() {
-    console.log('Inicializando app...');
+
     
     try {
         // Elementos do formulário desktop
@@ -126,8 +126,7 @@ async function adicionarProdutoDesktop() {
         usuario: localStorage.getItem("usuario") || "admin"
     };
 
-    try {console.log(produto)
-           
+    try {
         await window.commons.enviarProdutoServidor(produto);
         await carregarProdutosDesktop();
         limparFormularioDesktop();
@@ -415,13 +414,13 @@ async function adicionarQuantidadeDesktop() {
 
     try {
         const url = await window.commons.base_url();
-        const token = localStorage.getItem("authToken");
+    
         
         const response = await fetch(`${url}/api/produtos/adicionarStoke`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
+              
             },
             body: JSON.stringify({
                 id: produtoEditando.id,
