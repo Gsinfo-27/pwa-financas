@@ -141,6 +141,7 @@ class AuthService {
 
     sair.addEventListener("click", (e) => {
       e.preventDefault();
+      localStorage.clear()
       window.close();
     });
 
